@@ -1,0 +1,29 @@
+
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCL Admin Portal</title><link rel="stylesheet" href="/admin/admin.css"></head><body>
+<section id="loginScreen" class="login">
+  <form class="loginbox" id="loginForm">
+    <img src="/assets/scl-logo.png"><h1 style="text-align:center">SCL Admin Portal</h1>
+    <p class="muted" style="text-align:center">Authorized access only</p>
+    <label>Email</label><input id="email" type="email" required autocomplete="username">
+    <label>Password</label><input id="password" type="password" required autocomplete="current-password">
+    <button style="width:100%;margin-top:16px">Secure Login</button><div class="msg" id="loginMsg"></div>
+  </form>
+</section>
+
+<section id="app" class="shell hidden">
+  <aside class="side">
+    <div class="brand"><img src="/assets/scl-logo.png"><span>SCL Admin</span></div>
+    <button class="navbtn active" data-page="dashboard">Dashboard</button>
+    <button class="navbtn" data-page="teams">Teams</button>
+    <button class="navbtn" data-page="players">Players</button>
+    <button class="navbtn" data-page="matches">Matches</button>
+    <button class="navbtn" data-page="news">News</button>
+    <button class="navbtn" data-page="security">Security</button>
+  </aside>
+  <main class="main">
+    <div class="top"><div><h1 id="pageTitle" style="margin:0">Dashboard</h1><div class="muted">Sabzazar Champions League</div></div><button id="logout" class="ghost">Logout</button></div>
+    <div id="page"></div>
+  </main>
+</section>
+<script src="/admin/admin.js"></script></body></html>
