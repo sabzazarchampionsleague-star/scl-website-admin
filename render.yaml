@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: sabzazar-champions-league
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    disk:
+      name: scl-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /var/data
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@scl.local
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SEED_DEMO_DATA
+        value: "false"
