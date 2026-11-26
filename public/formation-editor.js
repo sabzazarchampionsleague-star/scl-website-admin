@@ -1,0 +1,11 @@
+function formationEditor(host, roster, current, save) {
+ const saved=JSON.parse(current); let selected=saved.players;
+ host.innerHTML='<h3>7v7 formation</h3><p>1 goalkeeper + 6 outfield players. Choose a preset or enter your own rows totalling 6.</p><label>Preset<select class="preset"><option value="">Custom</option>'+['2-3-1','3-2-1','2-2-2','3-1-2','2-1-3','1-3-2','3-3','4-2','2-4'].map(x=>'<option>'+x+'</option>').join('')+'</select></label><label>Outfield rows<input class="shape" value="'+esc(saved.shape)+'" placeholder="e.g. 2-3-1" maxlength="11"></label><button type="button" class="arrange">Apply layout</button><div class="slots"></div><button type="button" class="publish">Publish formation</button><p role="status"></p>';
+ const shape=host.querySelector('.shape'),slots=host.querySelector('.slots'),msg=host.querySelector('[role=status]');let activeShape=saved.shape;
+ function read(){return [...slots.querySelectorAll('select')].map(s=>s.value?Number(s.value):null);}
+ function draw(){const value=shape.value.trim();const rows=value.split('-').map(Number);if(!/^[1-6](?:-[1-6]){0,5}$/.test(value)||rows.reduce((a,b)=>a+b,0)!==6)throw Error('Rows must total 6 outfield players. Goalkeeper is added separately.');activeShape=value;slots.innerHTML=['Goalkeeper',...rows.flatMap((n,i)=>Array.from({length:n},(_,j)=>'Row '+(i+1)+' · Player '+(j+1)))].map((label,i)=>'<label>'+label+'<select><option value="">Empty slot</option>'+roster.map(p=>'<option value="'+p.id+'" '+(selected[i]===p.id?'selected':'')+'>'+esc(p.name)+'</option>').join('')+'</select></label>').join('');msg.textContent='';}
+ host.querySelector('.preset').value=saved.shape;
+ host.querySelector('.arrange').onclick=()=>{selected=read();try{draw();}catch(e){msg.textContent=e.message;}};
+ host.querySelector('.preset').onchange=e=>{if(e.target.value){shape.value=e.target.value;host.querySelector('.arrange').click();}};
+ host.querySelector('.publish').onclick=async e=>{const button=e.target;button.disabled=true;try{if(shape.value.trim()!==activeShape)throw Error('Click Apply layout before publishing.');await save({shape:activeShape,players:read()});msg.textContent='Formation published.';}catch(err){msg.textContent=err.message;}finally{button.disabled=false;}};draw();
+}

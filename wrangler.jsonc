@@ -1,0 +1,39 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sabzazar-champions-league",
+  "main": "dist/server/index.js",
+  "compatibility_date": "2026-09-30",
+  "account_id": "1175074e673e51770e04a7fe664f0e0d",
+  "workers_dev": true,
+  "no_bundle": true,
+  "tsconfig": "tsconfig.json",
+  "find_additional_modules": false,
+  "build": {
+    "command": "npm run build"
+  },
+  "vars": {
+    "ADMIN_EMAIL": "admin@scl.local"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "scl-database",
+      "database_id": "6f139250-6143-461f-85c9-661f4caf3bcb",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "sabzazarchampionsleague.club",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.sabzazarchampionsleague.club",
+      "custom_domain": true
+    },
+    {
+      "pattern": "admin.sabzazarchampionsleague.club",
+      "custom_domain": true
+    }
+  ]
+}

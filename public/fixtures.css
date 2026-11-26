@@ -1,0 +1,17 @@
+#matches{display:flex!important;flex-wrap:nowrap;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 2px 24px;align-items:stretch;scrollbar-color:#7d9bc2 #eaf1f9}
+#matches>.card{flex:0 0 460px;min-width:0;scroll-snap-align:start}
+#matches>.card,#previousMatches>.card{background:#fff!important;color:#112b4b!important;border:1px solid #cbdced!important;padding:24px!important;box-shadow:0 8px 24px #1234560d!important;isolation:isolate}
+#matches>.card::before,#matches>.card::after,#previousMatches>.card::before,#previousMatches>.card::after{display:none!important}
+#matches .result-teams,#previousMatches .result-teams{display:grid!important;grid-template-columns:minmax(0,1fr) 100px minmax(0,1fr);align-items:start;gap:12px}
+#matches .result-team,#previousMatches .result-team{display:flex!important;flex-direction:column;align-items:center!important;text-align:center!important;min-width:0;color:#112b4b!important}
+#matches .result-team strong,#previousMatches .result-team strong{color:#112b4b!important;font-size:18px!important;line-height:1.35;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;max-width:100%;margin-top:10px}
+#matches .match-crest,#previousMatches .match-crest{width:88px!important;height:88px!important;object-fit:contain;flex-shrink:0}
+#matches .score-stack,#previousMatches .score-stack{align-self:center;text-align:center}
+#matches .score,#previousMatches .score{color:#123d75!important;background:#edf4ff!important;border:1px solid #cbddf4;box-shadow:none!important;font-size:28px!important;padding:12px 8px!important;min-width:0!important}
+#matches .badge,#previousMatches .badge{color:#24538b!important;background:#eef4fc!important;font-size:10px!important;letter-spacing:.6px!important;white-space:normal}
+#matches .meta,#previousMatches .meta{color:#435a74!important;font-size:14px!important;border-top:1px solid #e1e9f3;padding-top:16px;margin-top:22px}
+#matches .team-scorers,#matches .match-cards,#previousMatches .team-scorers,#previousMatches .match-cards{color:#435a74!important}
+@media(max-width:600px){#matches>.card{flex-basis:calc(100% - 20px)}#matches>.card,#previousMatches>.card{padding:18px 12px!important}#matches .result-teams,#previousMatches .result-teams{grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr);gap:6px}#matches .match-crest,#previousMatches .match-crest{width:72px!important;height:72px!important}#matches .result-team strong,#previousMatches .result-team strong{font-size:15px!important}}
+#matches .match-crest,#previousMatches .match-crest{opacity:1!important;visibility:visible!important;transform:none!important;filter:none!important}#matches .badge,#previousMatches .badge{white-space:nowrap!important;font-size:9px!important;padding:6px 3px!important;letter-spacing:0!important}
+
+#matches .score,#previousMatches .score,#matches .badge,#previousMatches .badge{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}

@@ -1,27 +1,23 @@
 
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sabzazar Champions League | SCL</title><link rel="stylesheet" href="/styles.css"></head>
-<body>
-<nav class="nav"><div class="container navin">
-<a class="brand" href="/"><img src="/assets/scl-logo.png"><span>SCL<small>SABZAZAR CHAMPIONS LEAGUE</small></span></a>
-<div class="links"><a href="#fixtures">Fixtures</a><a href="#table">Table</a><a href="#teams">Teams</a><a href="#players">Players</a><a href="#news">News</a></div>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sabzazar Super League | SSL</title><link rel="stylesheet" href="/styles.css"><link rel="icon" href="/assets/ssl-logo.jpg"><link rel="stylesheet" href="/glass-buttons.css?v=ssl122"><link rel="stylesheet" href="/refined-theme.css?v=ssl122"><link rel="stylesheet" href="/preseason.css?v=ssl124"><link rel="stylesheet" href="/scl-motion.css?v=ssl124"><link rel="stylesheet" href="/league-motion-fix.css?v=ssl124"><link rel="stylesheet" href="/footer-contact.css?v=ssl127"><link rel="stylesheet" href="/modern-home.css?v=ssl137"><link rel="stylesheet" href="/fixtures.css?v=136"><link rel="stylesheet" href="/club-crests.css?v=135"><link rel="stylesheet" href="/developer-credit.css?v=139"></head>
+<body class="editorial-home league-home">
+<nav class="nav" aria-label="Main navigation"><div class="container navin"><button class="site-menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNavigation" type="button"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<a class="brand" href="/"><img src="/assets/ssl-logo.jpg" alt="SSL crest"><span>SSL<small>SABZAZAR SUPER LEAGUE</small></span></a>
+<div class="site-drawer-shade" hidden></div><div class="links" id="siteNavigation" inert><div class="drawer-heading"><span>EXPLORE SSL</span><button class="drawer-close" type="button" aria-label="Close navigation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><a href="#fixtures">Fixtures</a><a href="#previous-matches">Results</a><a href="#table">Table</a><a href="#teams">Clubs</a><a href="#players">Players</a><a href="#news">News</a><a href="/account">My account</a></div>
 </div></nav>
 <main>
-<section class="hero"><div class="container hero-grid">
-<div><div class="kicker">Sabzazar • Football • Champions</div><h1>THE GAME.<br>THE GLORY.</h1>
-<p>Official home of the Sabzazar Champions League. Follow fixtures, results, standings, teams, players and league updates.</p>
-<a class="cta" href="#fixtures">View Matches</a></div>
-<div class="hero-logo"><img src="/assets/scl-logo.png" alt="SCL logo"></div>
-</div></section>
+<section class="cover"><div class="cover-copy"><h1>THE GAME.<br><em>A NEW CHAPTER.</em></h1><p class="lead">Built by the community. Played with pride.</p><p class="description">The clubs are ready for their next chapter.<br>Explore the fixtures and follow your club throughout the season.</p><div class="actions"><a class="glass" href="#teams">Explore clubs</a><a class="text-link" href="#fixtures">View fixtures</a></div><p class="credit">Your home for football in Sabzazar by Rayyan &amp; Ramzan.</p></div><div class="cover-art" aria-hidden="true"><img src="/assets/ssl-logo.jpg" alt=""><span class="art-tag">PLAY. COMPETE. UNITE.</span></div></section>
 
-<section class="section" id="fixtures"><div class="container"><h2>Fixtures & Results</h2><div class="grid" id="matches"></div></div></section>
+<section class="section" id="fixtures"><div class="container"><h2>Fixtures & Results</h2><p id="scoreUpdated" hidden>Loading matches…</p><div class="clubs-slider-controls"><button id="fixturesPrevious" aria-label="Previous fixtures">&#8592;</button><button id="fixturesNext" aria-label="Next fixtures">&#8594;</button></div><div class="grid" id="matches" tabindex="0" role="region" aria-label="Fixtures. Scroll horizontally to explore."></div></div></section>
+<section class="section" id="previous-matches"><div class="container"><h2>Previous matches</h2><div class="grid" id="previousMatches"></div><p id="previousCount"></p><button id="morePrevious" hidden>See more</button></div></section>
 <section class="section" id="table"><div class="container"><h2>League Table</h2><div class="tablewrap">
 <table><thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead><tbody id="standings"></tbody></table>
 </div></div></section>
-<section class="section" id="teams"><div class="container"><h2>Teams</h2><div class="grid" id="teamsGrid"></div></div></section>
+<section class="section" id="teams"><div class="container"><h2>One league. Every club.</h2><div class="clubs-slider-controls"><button type="button" id="clubsPrevious" aria-label="Previous clubs">&#8592;</button><button type="button" id="clubsNext" aria-label="Next clubs">&#8594;</button></div><div class="grid" id="teamsGrid" tabindex="0" role="region" aria-label="League clubs. Scroll horizontally to explore."></div></div></section>
 <section class="section" id="players"><div class="container"><h2>Top Players</h2><div class="grid" id="playersGrid"></div></div></section>
 <section class="section" id="news"><div class="container"><h2>Latest News</h2><div class="grid" id="newsGrid"></div></div></section>
-</main>
-<footer class="footer"><div class="container">© <span id="year"></span> Sabzazar Champions League (SCL)</div></footer>
-<script src="/app.js"></script>
-</body></html>
+<section class="section" id="events"><div class="container"><h2>Events</h2><div class="grid" id="eventsGrid"></div></div></section></main>
+<footer class="footer"><div class="container">© 2026 Sabzazar Super League (SSL) · <a href="/privacy">Privacy policy</a></div><div class="ssl-footer-contact"><a class="ssl-instagram" href="https://www.instagram.com/sabzazarchampionsleague?exln=MXE0eDY2NDl6dXoxaQ==" target="_blank" rel="noopener noreferrer" aria-label="Follow SSL on Instagram (opens in a new tab)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a class="ssl-contact-email" href="mailto:sabzazarchamopionsleague@gmail.com" aria-label="Email SSL at sabzazarchamopionsleague@gmail.com"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6 9 7 9-7"/></svg></a></div><p class="developer-credit">Developer: <strong>Ramzan Ahmad</strong></p></footer>
+<script src="/app.js?v=ssl146"></script>
+<script src="/scl-motion.js?v=ssl124" defer></script><script src="/modern-home.js?v=ssl130" defer></script><script src="/clubs-slider.js?v=ssl132" defer></script><script src="/fixtures-slider.js?v=134" defer></script></body></html>

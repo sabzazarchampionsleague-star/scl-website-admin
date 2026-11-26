@@ -1,0 +1,10 @@
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE, password_hash TEXT, google_sub TEXT UNIQUE, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE user_sessions (token_hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires INTEGER NOT NULL);
+CREATE INDEX idx_user_sessions_expires ON user_sessions(expires);
+CREATE TABLE oauth_states (state_hash TEXT PRIMARY KEY, nonce TEXT NOT NULL, verifier TEXT NOT NULL, expires INTEGER NOT NULL);
+ALTER TABLE teams ADD COLUMN owner_user_id INTEGER REFERENCES users(id);
+ALTER TABLE players ADD COLUMN user_id INTEGER REFERENCES users(id);
+CREATE UNIQUE INDEX idx_player_user ON players(user_id);
+CREATE TABLE applications (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, team_id INTEGER NOT NULL REFERENCES teams(id) ON DELETE CASCADE, position TEXT NOT NULL, message TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','approved','rejected')), created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id,team_id));
+CREATE INDEX idx_application_team ON applications(team_id,status);
+CREATE TABLE team_logos (team_id INTEGER PRIMARY KEY REFERENCES teams(id) ON DELETE CASCADE, data TEXT NOT NULL);

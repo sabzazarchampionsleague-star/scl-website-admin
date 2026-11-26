@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS club_registrations (
+ id INTEGER PRIMARY KEY AUTOINCREMENT, club TEXT NOT NULL, club_key TEXT NOT NULL UNIQUE,
+ captain TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, details TEXT NOT NULL,
+ formation TEXT NOT NULL, lineup TEXT NOT NULL, substitutes TEXT NOT NULL, proof TEXT NOT NULL,
+ league TEXT NOT NULL, fee INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'pending',
+ created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, approved_at TEXT, approved_by INTEGER,
+ email_sent INTEGER NOT NULL DEFAULT 0
+);

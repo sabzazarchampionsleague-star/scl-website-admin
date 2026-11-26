@@ -1,0 +1,10 @@
+ALTER TABLE teams ADD COLUMN name_key TEXT;
+UPDATE teams SET name_key=lower(trim(name));
+CREATE UNIQUE INDEX teams_name_key_unique ON teams(name_key);
+ALTER TABLE teams ADD COLUMN description TEXT NOT NULL DEFAULT '';
+ALTER TABLE teams ADD COLUMN formation TEXT NOT NULL DEFAULT '{"shape":"4-3-3","players":[]}';
+CREATE TABLE player_profiles(user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, position TEXT NOT NULL DEFAULT '', bio TEXT NOT NULL DEFAULT '');
+ALTER TABLE matches ADD COLUMN minute INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE matches ADD COLUMN phase TEXT NOT NULL DEFAULT '';
+CREATE TABLE events(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,description TEXT NOT NULL,event_date TEXT NOT NULL,venue TEXT NOT NULL DEFAULT '',status TEXT NOT NULL DEFAULT 'open' CHECK(status IN ('open','closed')),entry_type TEXT NOT NULL DEFAULT 'both' CHECK(entry_type IN ('both','player','team')));
+CREATE TABLE event_entries(id INTEGER PRIMARY KEY AUTOINCREMENT,event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,team_id INTEGER REFERENCES teams(id) ON DELETE SET NULL,entry_key TEXT NOT NULL,message TEXT NOT NULL DEFAULT '',status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','approved','rejected')),email_status TEXT NOT NULL DEFAULT 'pending',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(event_id,entry_key));

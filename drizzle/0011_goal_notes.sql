@@ -1,0 +1,1 @@
+ALTER TABLE match_goals ADD COLUMN note TEXT NOT NULL DEFAULT '';

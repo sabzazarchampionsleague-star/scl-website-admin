@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "club.sabzazarchampionsleague.app",
+      "sha256_cert_fingerprints": [
+        "50:65:35:E8:E0:C6:A9:53:CA:8D:34:E1:27:BB:7B:8D:A3:9F:42:2B:36:B5:99:09:29:DA:66:73:60:30:49:BC"
+      ]
+    }
+  }
+]

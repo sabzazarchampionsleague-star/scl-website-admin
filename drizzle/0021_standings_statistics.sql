@@ -1,0 +1,6 @@
+ALTER TABLE standings_adjustments ADD COLUMN played INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE standings_adjustments ADD COLUMN wins INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE standings_adjustments ADD COLUMN draws INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE standings_adjustments ADD COLUMN losses INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE standings_adjustments ADD COLUMN goals_for INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE standings_adjustments ADD COLUMN goals_against INTEGER NOT NULL DEFAULT 0;

@@ -1,0 +1,9 @@
+/* Preserve the full transparent club artwork on every public and admin surface. */
+img.club-logo,img.team-logo,img.match-crest,img[src^="/team-logo/"]{
+ background:transparent!important;
+ border-radius:0!important;
+ object-fit:contain!important;
+ object-position:center!important;
+ padding:0!important;
+ box-shadow:none!important;
+}

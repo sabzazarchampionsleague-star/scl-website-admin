@@ -1,0 +1,45 @@
+let activeScoreMatch=null;
+function compactMatchControls(rows,players){
+ const selected=rows.find(m=>m.id===activeScoreMatch)||rows.find(m=>m.status==='live')||rows[0];
+ activeScoreMatch=selected?.id||null;
+ const picker=document.createElement('section');picker.className='panel match-picker';
+ picker.innerHTML='<label for="manageMatch">Select a match to manage</label><select id="manageMatch">'+rows.map(m=>`<option value="${m.id}" ${m.id===activeScoreMatch?'selected':''}>${esc(m.home_team)} vs ${esc(m.away_team)} - ${m.status==='live'?'Live':'Scheduled'}</option>`).join('')+'</select>'+(rows.length?'':'<p>No upcoming matches. Add a new match below.</p>');
+ document.querySelector('#page').prepend(picker);
+ picker.querySelector('select').disabled=!rows.length;
+ picker.querySelector('select').onchange=e=>{activeScoreMatch=Number(e.target.value);document.querySelectorAll('[data-score-match]').forEach(s=>s.hidden=Number(s.dataset.scoreMatch)!==activeScoreMatch);};
+ const forms=[...document.querySelectorAll('.match-editor')];
+ for(const form of forms){
+  const section=form.closest('section'),id=Number(form.dataset.id),match=rows.find(m=>m.id===id);
+  if(!match){const details=document.createElement('details');details.innerHTML='<summary>Add a new match</summary>';section.querySelector('h3')?.remove();form.before(details);details.append(form);continue;}
+  section.dataset.scoreMatch=id;section.classList.add('score-control');
+  section.hidden=id!==activeScoreMatch;
+  const heading=section.querySelector('h3');heading.innerHTML=`<span>${esc(match.home_team)}</span><strong>${match.status==='finished'&&match.first_leg_score?'AGG '+(Number(match.home_score)+Number(match.first_leg_score.home))+' - '+(Number(match.away_score)+Number(match.first_leg_score.away)):`${match.first_leg_score?' ('+match.first_leg_score.home+') ':''}${match.home_score} - ${match.away_score}${match.first_leg_score?' ('+match.first_leg_score.away+')':''}`}</strong><span>${esc(match.away_team)}</span>`;heading.className='control-scoreboard';
+  const state=document.createElement('p');state.className='control-state';state.textContent=match.status==='live'?'LIVE':'Scheduled';heading.after(state);
+  const details=document.createElement('details');details.className='match-settings';details.innerHTML='<summary>Edit match details / score</summary>';form.before(details);details.append(form);section.append(details);
+  const goal=section.querySelector('.goal-form'),card=section.querySelector('.card-form');
+  for(const [f,name] of [[goal,'scorer'],[card,'player_name']]){
+   if(!f)continue;const input=f.elements[name],team=f.elements.team_id,select=document.createElement('select');select.required=true;select.dataset.playerPicker=name;select.setAttribute('aria-label',name==='scorer'?'Select goal scorer':'Select player');input.before(select);input.hidden=true;input.required=false;input.placeholder='Enter player name';
+   const update=()=>{const tid=f.elements.own_goal?.checked?(Number(team.value)===match.home_team_id?match.away_team_id:match.home_team_id):Number(team.value);const roster=players.filter(p=>p.team_id===tid);select.innerHTML='<option value="">Select a player</option>'+roster.map((p,i)=>`<option value="p${i}">${esc(p.name)}${p.jersey_no!=null?' #'+p.jersey_no:''}</option>`).join('')+'<option value="manual">Other / type a name</option>';select.onchange=()=>{const manual=select.value==='manual';input.hidden=!manual;input.required=manual;input.value=manual?'':roster[Number(select.value.slice(1))]?.name||'';if(manual)input.focus();};input.value='';input.hidden=true;input.required=false;};team.addEventListener('change',update);f.elements.own_goal?.addEventListener('change',update);update();
+   f.addEventListener('submit',()=>{activeScoreMatch=id;});
+  }
+  if(goal)goal.querySelector('button').textContent='+ Add goal';
+  if(card){const fold=document.createElement('details');fold.className='card-controls';fold.innerHTML='<summary>Yellow / red card</summary>';const title=card.previousElementSibling;if(title?.tagName==='H4')title.remove();card.before(fold);fold.append(card);const list=fold.nextElementSibling;if(list?.tagName==='UL')fold.append(list);}
+  const timerButtons=section.querySelector('[data-clock-action]')?.parentElement;timerButtons?.classList.add('timer-actions');
+  const extra=document.createElement('details');extra.className='match-settings';extra.innerHTML=`<summary>Half-time &amp; extra minutes</summary><p>Set added minutes before the clock reaches Full time. These extend the total match duration. Use Half-time to pause for the break.</p><form class="extra-minutes"><label>1st half extra minutes<input name="first_half_extra" type="number" min="0" max="30" required value="${match.first_half_extra||0}"></label><label>2nd half extra minutes<input name="second_half_extra" type="number" min="0" max="30" required value="${match.second_half_extra||0}"></label><button>Save extra minutes</button></form><p>1st half: ${((match.duration_minutes-addedMinutes(match))/2)}+${match.first_half_extra||0} min. 2nd half end: ${match.duration_minutes-addedMinutes(match)}+${match.second_half_extra||0} min.</p><div class="actions"><button type="button" data-half="half_time">Half-time / pause</button><button type="button" data-half="second_half">Start 2nd half</button></div><p role="status"></p>`;
+  timerButtons?.after(extra);
+  async function clockChange(body,button){button.disabled=true;activeScoreMatch=id;try{await api('/api/admin/matches/'+id+'/clock',{method:'PUT',body:JSON.stringify(body)});matchUpdates?.postMessage('changed');await liveMatches();}catch(e){extra.querySelector('[role=status]').textContent=e.message;button.disabled=false;}}
+  extra.querySelector('form').onsubmit=e=>{e.preventDefault();clockChange({action:'added_time',...Object.fromEntries(new FormData(e.target))},e.target.querySelector('button'));};
+  extra.querySelectorAll('[data-half]').forEach(b=>b.onclick=()=>clockChange({action:b.dataset.half},b));
+  for(const b of section.querySelectorAll('[data-clock-action],[data-remove-goal],[data-remove-card]'))b.addEventListener('click',()=>{activeScoreMatch=id;});
+ }
+}
+
+function matchDateText(value){if(typeof value!=='string'||!value.trim())return '';const raw=value.trim(),d=new Date(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?$/.test(raw)?raw+'+05:00':raw);return Number.isFinite(d.getTime())?d.toLocaleString('en-US',{timeZone:'Asia/Karachi',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true})+' PKT':'';}
+function showMatchTimeHints(){document.querySelectorAll('.match-editor [name="match_date"]').forEach(input=>{const hint=document.createElement('small');hint.className='match-time-hint';hint.setAttribute('aria-live','polite');input.after(hint);const update=()=>{hint.textContent=matchDateText(input.value)||'Choose date and time (Pakistan time)';};input.addEventListener('input',update);input.addEventListener('change',update);update();});}
+
+
+function addedMinutes(m){return Number(m.first_half_extra||0)+Number(m.second_half_extra||0);}
+function durationText(m){const first=Number(m.first_half_extra||0),second=Number(m.second_half_extra||0),base=Number(m.duration_minutes||70)-first-second,elapsed=Number(m.clock_seconds||0)+(m.clock_started_at?Math.max(0,(Date.now()-m.clock_started_at)/1000):0);if(first&&m.status!=='finished'&&m.phase!=='2nd half'&&elapsed<=(base/2+first)*60)return (base/2)+'+'+first;return second?base+'+'+second:String(base);}
+function clockText(seconds,total,extra,first=0,phase=''){const base=total-extra,half=base/2,second=extra-first;if(first&&phase!=='2nd half'&&seconds>=half*60&&seconds<=(half+first)*60)return half+'+'+Math.floor((seconds-half*60)/60)+'′';const played=Math.max(0,seconds-((phase==='2nd half'||seconds>(half+first)*60)?first*60:0)),mins=Math.floor(played/60),secs=String(Math.floor(played%60)).padStart(2,'0');return second&&played>=base*60?base+'+'+(mins-base)+'′':mins+'′';}
+
+function ownGoalControls(){document.querySelectorAll('.goal-form').forEach(f=>{const label=document.createElement('label');label.style.cssText='display:flex;align-items:center;gap:10px;margin:12px 0';label.innerHTML='<input type="checkbox" name="own_goal" value="yes" style="width:22px;min-height:22px;height:22px"> Own goal';const help=document.createElement('p');help.className='muted';help.textContent='Scoring team gets the point. For an own goal, enter the opposing player who scored it.';const penalty=document.createElement('label');penalty.style.cssText=label.style.cssText;penalty.innerHTML='<input type="checkbox" name="penalty" value="yes" style="width:22px;min-height:22px;height:22px"> Penalty goal';label.querySelector('input').addEventListener('change',()=>{if(f.elements.own_goal.checked)f.elements.penalty.checked=false;});penalty.querySelector('input').addEventListener('change',()=>{if(f.elements.penalty.checked&&f.elements.own_goal.checked){f.elements.own_goal.checked=false;f.elements.own_goal.dispatchEvent(new Event('change'));}});f.querySelector('button').before(label,penalty,help);});}

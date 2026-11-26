@@ -1,9 +1,9 @@
 
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SCL Admin Portal</title><link rel="stylesheet" href="/admin/admin.css"></head><body>
+<title>SSL Admin Portal</title><link rel="icon" href="/favicon.ico?v=admin147" sizes="any"><link rel="icon" href="/favicon.png?v=admin147" type="image/png"><link rel="apple-touch-icon" href="/favicon.png?v=admin147"><link rel="stylesheet" href="/admin/admin.css?v=ssl117"><style>.club-logo{border-radius:50%;object-fit:cover;aspect-ratio:1;background:#eee5ff}</style><link rel="stylesheet" href="/glass-buttons.css?v=ssl117"><link rel="stylesheet" href="/admin/dashboard-theme.css?v=ssl117"><link rel="stylesheet" href="/club-crests.css?v=135"><link rel="stylesheet" href="/admin/search.css?v=145"></head><body>
 <section id="loginScreen" class="login">
   <form class="loginbox" id="loginForm">
-    <img src="/assets/scl-logo.png"><h1 style="text-align:center">SCL Admin Portal</h1>
+    <img src="/assets/ssl-logo.jpg"><h1 style="text-align:center">SSL Admin Portal</h1>
     <p class="muted" style="text-align:center">Authorized access only</p>
     <label>Email</label><input id="email" type="email" required autocomplete="username">
     <label>Password</label><input id="password" type="password" required autocomplete="current-password">
@@ -12,18 +12,18 @@
 </section>
 
 <section id="app" class="shell hidden">
-  <aside class="side">
-    <div class="brand"><img src="/assets/scl-logo.png"><span>SCL Admin</span></div>
+  <aside class="side" id="adminNavigation" aria-label="Admin sections">
+    <div class="brand"><img src="/assets/ssl-logo.jpg"><span>SSL Admin</span></div>
     <button class="navbtn active" data-page="dashboard">Dashboard</button>
-    <button class="navbtn" data-page="teams">Teams</button>
-    <button class="navbtn" data-page="players">Players</button>
-    <button class="navbtn" data-page="matches">Matches</button>
-    <button class="navbtn" data-page="news">News</button>
-    <button class="navbtn" data-page="security">Security</button>
+    <button class="navbtn" data-page="teams">Teams & players</button><button class="navbtn" data-page="delete-teams">Delete team</button><button class="navbtn" data-page="broadcast">Broadcast</button><button class="navbtn" data-page="matches">Matches</button>
+    <button class="navbtn" data-page="previous-matches">Previous matches</button><button class="navbtn" data-page="news">News</button>
+    <button class="navbtn" data-page="winner">Winner announcement</button><button class="navbtn" data-page="events">Events</button><button class="navbtn" data-page="staff">Staff access</button><button class="navbtn" data-page="security">Security</button>
   </aside>
   <main class="main">
-    <div class="top"><div><h1 id="pageTitle" style="margin:0">Dashboard</h1><div class="muted">Sabzazar Champions League</div></div><button id="logout" class="ghost">Logout</button></div>
+    <div class="top"><button id="menuToggle" type="button" class="ghost mobile-menu" aria-expanded="false" aria-controls="adminNavigation">Menu</button><div><h1 id="pageTitle" style="margin:0">Dashboard</h1><div class="muted">Sabzazar Super League</div></div><button id="logout" class="ghost">Logout</button></div>
     <div id="page"></div>
   </main>
 </section>
-<script src="/admin/admin.js"></script></body></html>
+<script src="/vendor/livekit.js"></script><script src="/broadcast-ui.js?v=ssl117"></script><script src="/admin/search.js?v=144"></script><script src="/admin-squads.js?v=ssl144"></script><script src="/match-controls.js?v=ssl117"></script><script src="/league-admin.js?v=ssl144"></script><script src="/admin/admin.js?v=ssl140"></script></body></html>
+
+
